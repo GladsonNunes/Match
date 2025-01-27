@@ -20,7 +20,9 @@ namespace Match.Domain.Match
         public DadosMatchDeveloperToProjectDTO MatchDeveloperToProject(int projectId)
         {
             var matchedDevelopers = new DadosMatchDeveloperToProjectDTO();
+            
             var developerAptos = new List<DadosDeveloperMatchResultDTO>();
+            
             var project = _servProject.GetProjectById(projectId);
 
             var requiredExperienceLevel = project.MinimumExperienceLevel;
@@ -98,9 +100,38 @@ namespace Match.Domain.Match
             return matchedDevelopers;
         }
 
-        public DadosMatchProjectToDeveloperDTO MatchProjectToDeveloper (int developerId)
+        public DadosMatchProjectToDeveloperDTO MatchProjectToDeveloper(int developerId)
         {
             var matchProjectToDeveloper = new DadosMatchProjectToDeveloperDTO();
+            var developer = _servDeveloper.GetDeveloperById(developerId);
+            var requiredExperienceLevel = developer.ExperienceLevel;
+            var requiredSkills = developer.DeveloperSkills.Select(s => s.SkillId).ToList();
+            var projectsAptos = _servProject.GetProjectAptosBySkill(requiredSkills);
+
+            foreach (var project in projectsAptos)
+            {
+                var projectSkills = project.ProjectSkills.Select(ds => ds.SkillId).ToList();
+                var skillMatchCount = requiredSkills.Count(rs => projectSkills.Contains(rs));
+                var experienceMatch = project.MinimumExperienceLevel <= requiredExperienceLevel;
+
+                if (skillMatchCount > 0 && experienceMatch)
+                {
+                    var score = skillMatchCount * 10 + (experienceMatch ? 20 : 0);
+
+                    matchProjectToDeveloper.ProjectsAptos.Add(new DadosProjectMatchResultDTO
+                    {
+                        Project = new DomainProject
+                        {
+                            Id = project.Id,
+                            Name = project.Name,
+                            Description = project.Description,
+                            MinimumExperienceLevel = project.MinimumExperienceLevel
+                        },
+                        Score = score
+                    });
+                }
+            }
+
             return matchProjectToDeveloper;
         }
 

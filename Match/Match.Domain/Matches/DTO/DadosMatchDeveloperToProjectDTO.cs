@@ -1,5 +1,4 @@
-﻿using DomainDeveloper = Match.Domain.Developer.Developer;
-namespace Match.Domain.Matches.DTO
+﻿namespace Match.Domain.Matches.DTO
 {
     public class DadosMatchDeveloperToProjectDTO
     {

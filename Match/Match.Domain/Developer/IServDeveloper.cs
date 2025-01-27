@@ -4,5 +4,7 @@ namespace Match.Domain.Developer
     public interface IServDeveloper
     {
         List<Developer> GetDevelopersAptosBySkill(List<int> dto);
+
+        Developer GetDeveloperById(int developerId);
     }
 }

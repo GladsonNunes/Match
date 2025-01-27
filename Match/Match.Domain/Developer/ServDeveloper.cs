@@ -13,14 +13,13 @@ namespace Match.Domain.Developer
         }
         public List<Developer> GetDevelopersAptosBySkill(List<int> dto)
         {
-            var listDevelopers = new List<Developer>();
-
-            
             var listIdsDevelopers = _repDeveloperSkill.GetDevelopersAptosBySkill(dto);
+            return _repDeveloper.GetByIds(listIdsDevelopers).ToList();
+        }
 
-            listDevelopers = _repDeveloper.GetByIds(listIdsDevelopers).ToList();
-
-            return listDevelopers;
+        public Developer GetDeveloperById(int developerId)
+        {
+            return _repDeveloper.GetById(developerId);
         }
     }
 
