@@ -62,8 +62,7 @@ namespace Match.Api.Controllers.Match
 
                 return Ok(new
                 {
-                    MatchedProjectAptos = matchedProjects.ProjectsAptos,
-                    MatchedProjectAptosSecond = matchedProjects.ProjectsAptosSecond,
+                    MatchedProjectAptos = matchedProjects.ProjectsAptos
                 });
             }
             catch (Exception ex)
