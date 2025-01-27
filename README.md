@@ -26,7 +26,7 @@ Make sure you have the following requirements installed on your system:
     docker-compose up -d
     ```
 
-This will create containers for the API and the SQL Server database.
+This will create containers for the API and the Oracle database.
 
 ## Accessing the API
 
