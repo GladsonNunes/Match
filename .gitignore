@@ -1,0 +1,14 @@
+# Diretórios do Visual Studio
+.vs/
+.idea/
+
+# Arquivos de configuração do Visual Studio
+.vscode/
+
+# Arquivos de build
+bin/
+obj/
+
+# Arquivos temporários e de cache
+*.log
+*.vsix
