@@ -7,10 +7,14 @@ services:
     container_name: Match-app
     ports:
       - 8080:8080
+    networks:
+      match-networks:
     depends_on:
-      - oracle
-
-  oracle:
+      - oracle-db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Oracle=User Id=system;Password=oracle;Data Source=oracle-db:1521/XEPDB1
+  oracle-db:
     image: container-registry.oracle.com/database/express:21.3.0-xe
     container_name: oracle-db
     ports:
@@ -24,3 +28,6 @@ services:
 
 volumes:
   oracle-data:
+networks:
+  match-networks:
+    driver: bridge

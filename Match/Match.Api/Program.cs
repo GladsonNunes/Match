@@ -1,8 +1,6 @@
 using Match.Api.Infra.DependencyInejectionExtensions;
-using Match.Application.Match;
 using Match.Domain.Core;
 using Match.Domain.Developer;
-using Match.Domain.Match;
 using Match.Domain.Project;
 using Match.Infrastructure;
 using Match.Infrastructure.Core;
@@ -13,8 +11,10 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseOracle(builder.Configuration.GetConnectionString("ORACLE"))
-);
+{
+    options.UseOracle(builder.Configuration.GetConnectionString("ORACLE"),
+        b=>b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName));
+});
 
 
 builder.Services.AddScoped(typeof(IRepCore<>), typeof(RepCore<>));

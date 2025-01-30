@@ -18,7 +18,9 @@ namespace Match.Infrastructure
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
-
+        public AppDbContext()
+        {
+        }
         // DbSet para cada entidade do domínio
         public DbSet<DomainDeveloper> Developer { get; set; }
         public DbSet<DomainProject> Project { get; set; }
@@ -32,6 +34,7 @@ namespace Match.Infrastructure
         // Configuração do modelo (opcional)
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasDefaultSchema("MATCH");
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new DeveloperConfig());

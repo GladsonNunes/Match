@@ -19,6 +19,8 @@ RUN dotnet restore "Match.Api/Match.Api.csproj"
 # Instalar a ferramenta dotnet-ef
 RUN dotnet tool install --global dotnet-ef
 
+
+
 # Copiar o restante dos arquivos
 COPY . .
 
@@ -31,15 +33,17 @@ RUN dotnet build "Match.Api.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "Match.Api.csproj" -c Release -o /app/publish
 
+
 # Etapa 4: Usar a imagem base para rodar a aplicação (apenas o runtime)
 FROM base AS final
 WORKDIR /app
+
 # Copiar a aplicação publicada do container anterior
 COPY --from=publish /app/publish .
 
-# Instalar dotnet-ef para rodar as migrations manualmente
-RUN dotnet tool install --global dotnet-ef
 
 
 # Iniciar a aplicação
 ENTRYPOINT ["dotnet", "Match.Api.dll"]
+
+
