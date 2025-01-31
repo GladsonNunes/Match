@@ -34,7 +34,6 @@ namespace Match.Infrastructure
         // Configuração do modelo (opcional)
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("MATCH");
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new DeveloperConfig());

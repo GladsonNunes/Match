@@ -1,33 +1,39 @@
 version: '3.9'
+
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: Match-app
-    ports:
-      - 8080:8080
-    networks:
-      match-networks:
-    depends_on:
-      - oracle-db
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__Oracle=User Id=system;Password=oracle;Data Source=oracle-db:1521/XEPDB1
   oracle-db:
     image: container-registry.oracle.com/database/express:21.3.0-xe
     container_name: oracle-db
     ports:
-      - "1521:1521"
-      - "5500:5500"
+      - "1521:1521"  # Porta para conexões Oracle
+      - "5500:5500"  # Porta para Oracle Express (OEM)
     environment:
-      ORACLE_PWD: oracle
+      - ORACLE_SID=XE
+      - ORACLE_PDB=XEPDB1
+      - ORACLE_PWD=oracle  # Senha para os usuários SYS e SYSTEM
     volumes:
-      - oracle-data:/opt/oracle/oradata
-      
+      - oracle-data:/opt/oracle/oradata  # Persistência de dados
+    healthcheck:
+      test: ["CMD", "bash", "-c", "echo 'SELECT 1 FROM dual;' | sqlplus system/oracle@//localhost:1521/XEPDB1"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    restart: always  # Reinicia automaticamente em caso de falha
+
+  app:
+    build:
+      context: .  # Diretório onde está o Dockerfile da aplicação
+      dockerfile: Dockerfile
+    container_name: Match-app
+    ports:
+      - "8080:8080"  # Porta exposta para a aplicação
+    depends_on:
+      oracle-db:
+        condition: service_healthy  # Só inicia após o banco de dados estar pronto
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Oracle=User Id=system;Password=oracle;Data Source=oracle-db:1521/XEPDB1
+    restart: on-failure  # Reinicia a aplicação em caso de falha
 
 volumes:
-  oracle-data:
-networks:
-  match-networks:
-    driver: bridge
+  oracle-data:  # Volume para persistir os dados do Oracle

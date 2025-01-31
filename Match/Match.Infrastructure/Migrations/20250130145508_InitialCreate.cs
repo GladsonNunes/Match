@@ -5,7 +5,7 @@
 namespace Match.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InicialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

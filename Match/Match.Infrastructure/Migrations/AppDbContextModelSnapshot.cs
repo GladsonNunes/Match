@@ -16,7 +16,6 @@ namespace Match.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("MATCH")
                 .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
@@ -47,7 +46,7 @@ namespace Match.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DEVELOPER", "MATCH");
+                    b.ToTable("DEVELOPER", (string)null);
                 });
 
             modelBuilder.Entity("Match.Domain.DeveloperSkill.DeveloperSkill", b =>
@@ -64,7 +63,7 @@ namespace Match.Infrastructure.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("DEVELOPER_SKILL", "MATCH");
+                    b.ToTable("DEVELOPER_SKILL", (string)null);
                 });
 
             modelBuilder.Entity("Match.Domain.Project.Project", b =>
@@ -96,7 +95,7 @@ namespace Match.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PROJECT", "MATCH");
+                    b.ToTable("PROJECT", (string)null);
                 });
 
             modelBuilder.Entity("Match.Domain.ProjectSkill.ProjectSkill", b =>
@@ -113,7 +112,7 @@ namespace Match.Infrastructure.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("PROJECT_SKILL", "MATCH");
+                    b.ToTable("PROJECT_SKILL", (string)null);
                 });
 
             modelBuilder.Entity("Match.Domain.Skill.Skill", b =>
@@ -132,7 +131,7 @@ namespace Match.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SKILL", "MATCH");
+                    b.ToTable("SKILL", (string)null);
                 });
 
             modelBuilder.Entity("Match.Domain.DeveloperSkill.DeveloperSkill", b =>

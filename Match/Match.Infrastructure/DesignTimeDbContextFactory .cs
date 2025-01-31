@@ -11,7 +11,7 @@ namespace Match.Infrastructure
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
             // A configuração aqui depende de como você armazena a connection string
-            optionsBuilder.UseOracle("User Id=system;Password=oracle;Data Source=oracle-db:1521 / XEPDB1");
+            optionsBuilder.UseOracle("User Id=system;Password=oracle;Data Source=localhost:1521/XEPDB1");
 
 
             return new AppDbContext(optionsBuilder.Options);
