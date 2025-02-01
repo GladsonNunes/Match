@@ -3,6 +3,7 @@ using Match.Domain.Matches.DTO;
 using Match.Domain.Developer;
 using static System.Formats.Asn1.AsnWriter;
 using Match.Domain.Project;
+using Match.Domain.Match.DTO;
 
 namespace Match.Domain.Match
 {
@@ -10,6 +11,7 @@ namespace Match.Domain.Match
     {
         private readonly IServDeveloper _servDeveloper;
         private readonly IServProject _servProject;
+        private readonly IRepMatch _repMatch;
 
         public ServMatch(IServDeveloper servDeveloper,IServProject servProject)
         {
@@ -133,6 +135,14 @@ namespace Match.Domain.Match
             }
 
             return matchProjectToDeveloper;
+        }
+
+        public int CreateMatch(CreateMatchDTO dto)
+        {
+
+             _repMatch.Add(dto.Match);
+            
+            return 1;
         }
 
     }

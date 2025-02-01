@@ -1,5 +1,6 @@
 ﻿using Match.Domain.Developer;
 using Match.Domain.Match;
+using Match.Domain.Match.DTO;
 using Match.Domain.Matches.DTO;
 
 namespace Match.Application.Match
@@ -19,6 +20,11 @@ namespace Match.Application.Match
         public DadosMatchProjectToDeveloperDTO MatchProjectToDeveloper(int DeveloperId)
         {
             return _servMatch.MatchProjectToDeveloper(DeveloperId);
+        }
+
+        public int CreateMatch(CreateMatchDTO dto) 
+        {
+            return _servMatch.CreateMatch(dto);
         }
     }
 }

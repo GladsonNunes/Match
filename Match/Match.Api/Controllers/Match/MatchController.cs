@@ -1,4 +1,7 @@
-﻿using Match.Application.Match;
+﻿using Match.Api.Controllers.Core;
+using Match.Application.Match;
+using Match.Domain.Core;
+using Match.Domain.Match.DTO;
 using Match.Domain.Project;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,12 +9,28 @@ namespace Match.Api.Controllers.Match
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class MatchController : ControllerBase
+    public class MatchController : CoreController<Domain.Match.Match>
     {
         private readonly IAplicMatch _aplicMatch;
-        public MatchController(IAplicMatch aplicMatch)
+
+        public MatchController(IServCore<Domain.Match.Match> service, AplicMatch aplicMatch) : base(service)
         {
             _aplicMatch = aplicMatch;
+        }
+
+        [HttpPost("CreateMatch")]
+        public IActionResult CreateMatch(CreateMatchDTO dto)
+        {
+            try
+            {
+                _aplicMatch.CreateMatch(dto);
+                return Ok();
+            }
+            catch (Exception ex) 
+            {
+                return StatusCode(500, new { message = "Erro ao realizar o match.", details = ex.Message });
+            }
+            
         }
 
         [HttpGet("MatchDevelopersToProject/{id}")]

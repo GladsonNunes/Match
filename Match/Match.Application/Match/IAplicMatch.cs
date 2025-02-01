@@ -1,4 +1,5 @@
-﻿using Match.Domain.Matches.DTO;
+﻿using Match.Domain.Match.DTO;
+using Match.Domain.Matches.DTO;
 
 namespace Match.Application.Match
 {
@@ -6,5 +7,6 @@ namespace Match.Application.Match
     {
         DadosMatchDeveloperToProjectDTO MatchDeveloperToProject(int Projectid);
         DadosMatchProjectToDeveloperDTO MatchProjectToDeveloper(int DeveloperId);
+        int CreateMatch(CreateMatchDTO dto);
     }
 }

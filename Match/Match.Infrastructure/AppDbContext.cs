@@ -9,6 +9,8 @@ using DomainProject = Match.Domain.Project.Project;
 using DomainSkill = Match.Domain.Skill.Skill;
 using DomainDeveloperSkill = Match.Domain.DeveloperSkill.DeveloperSkill;
 using DomainProjectSkill = Match.Domain.ProjectSkill.ProjectSkill;
+using Match.Infrastructure.ConfigurationEF.Match;
+using Match.Infrastructure.ConfigurationEF.MatchMaker;
 
 namespace Match.Infrastructure
 {
@@ -27,8 +29,8 @@ namespace Match.Infrastructure
         public DbSet<DomainSkill> Skill { get; set; }
         public DbSet<DomainDeveloperSkill> DeveloperSkill { get; set; }
         public DbSet<DomainProjectSkill> ProjectSkill { get; set; }
-        
-
+        public DbSet<Domain.Match.Match> Match { get; set; }
+        public DbSet<Domain.MatchMaker.MatchMaker> MatchMaker { get; set; }
 
 
         // Configuração do modelo (opcional)
@@ -41,7 +43,9 @@ namespace Match.Infrastructure
             modelBuilder.ApplyConfiguration(new SkillConfig());
             modelBuilder.ApplyConfiguration(new DeveloperSkillConfig());
             modelBuilder.ApplyConfiguration(new ProjectSkillConfig());
-            
+            modelBuilder.ApplyConfiguration(new MatchConfig());
+            modelBuilder.ApplyConfiguration(new MatchMakerConfig());
+
         }
     }
 }
