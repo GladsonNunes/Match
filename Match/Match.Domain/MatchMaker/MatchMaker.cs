@@ -8,7 +8,7 @@ namespace Match.Domain.MatchMaker
         public int ProjectId { get; set; }
         public int MatchId { get; set; }
         public int DeveloperId { get; set; }
-        
-        public Match.Match Match { get; set; }
+        [JsonIgnore]
+        public Match.Match? Match { get; set; }
     }
 }

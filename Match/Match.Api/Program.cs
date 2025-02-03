@@ -1,10 +1,14 @@
 using Match.Api.Infra.DependencyInejectionExtensions;
 using Match.Domain.Core;
 using Match.Domain.Developer;
+using Match.Domain.Match;
+using Match.Domain.MatchNotification;
 using Match.Domain.Project;
 using Match.Infrastructure;
 using Match.Infrastructure.Core;
 using Match.Infrastructure.Developer;
+using Match.Infrastructure.Match;
+using Match.Infrastructure.MatchNotification;
 using Match.Infrastructure.Project;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +26,8 @@ builder.Services.AddScoped(typeof(IServCore<>), typeof(ServCore<>));
 
 builder.Services.AddScoped<IRepDeveloper, RepDeveloper>();
 builder.Services.AddScoped<IRepProject, RepProject>();
+builder.Services.AddScoped<IRepMatch, RepMatch>();
+builder.Services.AddScoped<IRepMatchNotification, RepMatchNotification>();
 
 builder.Services.AddApplicationServices();
 builder.Services.AddControllers().AddJsonOptions(options =>

@@ -4,6 +4,7 @@ using Match.Domain.Developer;
 using static System.Formats.Asn1.AsnWriter;
 using Match.Domain.Project;
 using Match.Domain.Match.DTO;
+using Match.Domain.MatchNotification;
 
 namespace Match.Domain.Match
 {
@@ -12,11 +13,14 @@ namespace Match.Domain.Match
         private readonly IServDeveloper _servDeveloper;
         private readonly IServProject _servProject;
         private readonly IRepMatch _repMatch;
+        private readonly IServMatchNotification _servMatchNotification;
 
-        public ServMatch(IServDeveloper servDeveloper,IServProject servProject)
+        public ServMatch(IServDeveloper servDeveloper,IServProject servProject, IRepMatch repMatch, IServMatchNotification servMatchNotification)
         {
             _servDeveloper = servDeveloper;
             _servProject = servProject;
+            _repMatch = repMatch;
+            _servMatchNotification = servMatchNotification;
         }
 
         public DadosMatchDeveloperToProjectDTO MatchDeveloperToProject(int projectId)
@@ -139,8 +143,40 @@ namespace Match.Domain.Match
 
         public int CreateMatch(CreateMatchDTO dto)
         {
+            var match = new Match
+            {
+                Id = dto.Match.Id,
+                StatusProcessed = dto.Match.StatusProcessed,
+                TypeMatch = dto.Match.TypeMatch,
+                DateMatch = dto.Match.DateMatch,
+                MatchMakers = new List<MatchMaker.MatchMaker>()
+            };
 
-             _repMatch.Add(dto.Match);
+            // Converter e associar MatchMakers
+            foreach (var matchMakerDto in dto.Match.MatchMakers)
+            {
+                var matchMaker = new MatchMaker.MatchMaker
+                {
+                    Id = matchMakerDto.Id,
+                    ProjectId = matchMakerDto.ProjectId,
+                    DeveloperId = matchMakerDto.DeveloperId,
+                    MatchId = dto.Match.Id,
+                };
+
+                match.MatchMakers.Add(matchMaker);
+            }
+
+            _repMatch.Add(match);
+
+            if (dto.Match.TypeMatch == EnumTypeMatch.ProjectToDeveloper) 
+            {
+                var developer = dto.DevelopersId.Distinct().FirstOrDefault();
+                _servMatchNotification.NotificationProject(dto.Project.ProjectId, developer.DeveloperId);
+            }
+            else
+            {
+                _servMatchNotification.NotificationDeveloper(dto.DevelopersId, dto.Project.ProjectId);
+            }
             
             return 1;
         }

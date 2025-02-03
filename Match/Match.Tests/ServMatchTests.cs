@@ -1,5 +1,6 @@
 ﻿using Match.Domain.Developer;
 using Match.Domain.Match;
+using Match.Domain.MatchNotification;
 using Match.Domain.Project;
 using Moq;
 
@@ -9,13 +10,17 @@ public class ServMatchTests
 {
     private readonly Mock<IServDeveloper> _mockServDeveloper;
     private readonly Mock<IServProject> _mockServProject;
+    private readonly Mock<IServMatchNotification> _mockServMatchNotification;
+    private readonly Mock<IRepMatch> _mockRepMatch;
     private readonly ServMatch _servMatch;
 
     public ServMatchTests()
     {
         _mockServDeveloper = new Mock<IServDeveloper>();
         _mockServProject = new Mock<IServProject>();
-        _servMatch = new ServMatch(_mockServDeveloper.Object, _mockServProject.Object);
+        _mockServMatchNotification = new Mock<IServMatchNotification>();
+        _mockRepMatch = new Mock<IRepMatch>();
+       _servMatch = new ServMatch(_mockServDeveloper.Object, _mockServProject.Object, _mockRepMatch.Object,_mockServMatchNotification.Object);
     }
 
     [Fact]

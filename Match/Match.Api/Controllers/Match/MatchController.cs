@@ -13,7 +13,7 @@ namespace Match.Api.Controllers.Match
     {
         private readonly IAplicMatch _aplicMatch;
 
-        public MatchController(IServCore<Domain.Match.Match> service, AplicMatch aplicMatch) : base(service)
+        public MatchController(IServCore<Domain.Match.Match> service, IAplicMatch aplicMatch) : base(service)
         {
             _aplicMatch = aplicMatch;
         }

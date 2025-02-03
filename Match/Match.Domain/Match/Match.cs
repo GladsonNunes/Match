@@ -27,10 +27,10 @@ namespace Match.Domain.Match
     public enum EnumTypeMatch
     {
         [Description("DeveloperToProject")]
-        WaitingForMatch = 0,
+        DeveloperToProject = 0,
 
         [Description("ProjectToDeveloper")]
-        MatchAccepted = 1,
+        ProjectToDeveloper = 1,
 
     }
 }
