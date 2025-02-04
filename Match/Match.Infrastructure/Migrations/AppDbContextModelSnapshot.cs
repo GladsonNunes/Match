@@ -86,7 +86,7 @@ namespace Match.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Match");
+                    b.ToTable("Match", (string)null);
                 });
 
             modelBuilder.Entity("Match.Domain.MatchMaker.MatchMaker", b =>

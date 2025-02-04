@@ -20,7 +20,8 @@ namespace Match.Infrastructure.ConfigurationEF.MatchMaker
                 .HasColumnName("IDMATCH");
 
             builder.Property(x => x.Id)
-                .HasColumnName("IDIDMATCHMAKER");
+                .ValueGeneratedOnAdd()
+                .HasColumnName("IDMATCHMAKER");
 
             builder.HasOne(ds => ds.Match)
                .WithMany(d => d.MatchMakers)

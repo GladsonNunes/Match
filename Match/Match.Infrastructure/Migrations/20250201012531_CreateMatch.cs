@@ -30,14 +30,15 @@ namespace Match.Infrastructure.Migrations
                 name: "MATCH_MAKER",
                 columns: table => new
                 {
-                    IDIDMATCHMAKER = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    IDMATCHMAKER = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                      .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
                     IDMATCH = table.Column<int>(type: "NUMBER(10)", nullable: false),
                     IDPROJECT = table.Column<int>(type: "NUMBER(10)", nullable: false),
                     IDDEVELOPER = table.Column<int>(type: "NUMBER(10)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MATCH_MAKER", x => new { x.IDIDMATCHMAKER, x.IDMATCH });
+                    table.PrimaryKey("PK_MATCH_MAKER", x => new { x.IDMATCHMAKER, x.IDMATCH });
                     table.ForeignKey(
                         name: "FK_MATCH_MAKER_Match_IDMATCH",
                         column: x => x.IDMATCH,
