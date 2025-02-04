@@ -28,7 +28,7 @@ namespace Match.Api.Controllers.Match
             }
             catch (Exception ex) 
             {
-                return StatusCode(500, new { message = "Erro ao realizar o match.", details = ex.Message });
+                return StatusCode(500, new { message = "Erro ao criar Match.", details = ex.Message });
             }
             
         }

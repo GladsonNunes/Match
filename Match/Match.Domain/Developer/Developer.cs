@@ -9,6 +9,9 @@ namespace Match.Domain.Developer
         public string Name { get; set; }
         public string Email { get; set; }
         public EnumExperienceLevel ExperienceLevel { get; set; }
+
+        
+        [UseSorting]
         public ICollection<DomainDeveloperSkill>? DeveloperSkills { get; set; }
     }
 

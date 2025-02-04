@@ -7,6 +7,7 @@ using Match.Domain.Project;
 using Match.Infrastructure;
 using Match.Infrastructure.Core;
 using Match.Infrastructure.Developer;
+using Match.Infrastructure.Graphql;
 using Match.Infrastructure.Match;
 using Match.Infrastructure.MatchNotification;
 using Match.Infrastructure.Project;
@@ -43,7 +44,12 @@ builder.Services.AddSwaggerGen();
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
+builder.Services.AddGraphQLServer().AddQueryType<Query>()
+                                   .AddProjections()
+                                   .AddFiltering()
+                                   .AddSorting();
 var app = builder.Build();
+
 
 // Executar as migrations automaticamente
 using (var scope = app.Services.CreateScope())
@@ -63,5 +69,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+app.MapGraphQL("/graphql");
 
 app.Run();

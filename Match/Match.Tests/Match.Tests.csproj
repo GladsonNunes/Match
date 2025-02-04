@@ -20,6 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Match.Api\Match.Api.csproj" />
+    <ProjectReference Include="..\Match.Application\Match.Application.csproj" />
     <ProjectReference Include="..\Match.Domain\Match.Domain.csproj" />
   </ItemGroup>
 
