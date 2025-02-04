@@ -47,7 +47,7 @@ namespace Match.Api.Controllers.Match
                 
                 if (matchedDevelopers == null || !matchedDevelopers.DevelopersAptos.Any())
                 {
-                    return NotFound("Nenhum desenvolvedor corresponde aos requisitos do projeto.");
+                    return NoContent();
                 }
 
                 return Ok(new
@@ -76,7 +76,7 @@ namespace Match.Api.Controllers.Match
 
                 if (matchedProjects == null || !matchedProjects.ProjectsAptos.Any())
                 {
-                    return NotFound("Nenhum desenvolvedor corresponde aos requisitos do projeto.");
+                    return NoContent();
                 }
 
                 return Ok(new

@@ -61,7 +61,7 @@ namespace Match.Api.Controllers.Core
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Ocorreu um erro inesperado.", details = ex.Message });
+                return StatusCode(500, new { message = "Erro ao criar o item.", details = ex.Message });
             }
 
 
@@ -77,7 +77,7 @@ namespace Match.Api.Controllers.Core
                     return BadRequest();
                 }
                 _service.Update(item);
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace Match.Api.Controllers.Core
             try
             {
                 _service.Delete(id);
-                return NoContent();
+                return Ok();
             }
 
             catch (Exception ex)
