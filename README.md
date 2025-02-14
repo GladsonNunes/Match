@@ -1,85 +1,73 @@
-# Match Project - README
 
-This is the README for the Match Project, which describes how to set up and run the application and the database using Docker Compose.
+# Project Match - back-end 
 
-## Requirements
+O projeto é uma API desenvolvida em .NET 8 que gerencia o processo de "match" entre desenvolvedores e projetos. Ele possui funcionalidades para criar matches, associar desenvolvedores a projetos e vice-versa, além de atualizar o status de um match.
 
-Make sure you have the following requirements installed on your system:
+## 🚀 Como Executar
+🔧 Requisitos
 
-- [Docker](https://www.docker.com/get-started)
-- [Docker Compose](https://docs.docker.com/compose/install/)
+- Docker
+- Docker Compose
+## Como executar o projeto no Docker
 
-## Configuration
+### Passo 1: Clonar o repositório
 
-1. Clone this repository to your development environment:
-
-    ```bash
-    git clone https://github.com/gladsonNunes/Match.git
-
-    cd match
-    ```
-    ´
+Clone o repositório do projeto para sua máquina local:
+```bash
+git clone https://github.com/GladsonNunes/match-api.git cd match-api
+```
 
 
-2. To build and start the Docker containers, run the following command at the project's root:
-    ```bash
-    docker-compose up -d
-    ```
+### Passo 2: Construir e executar o contêiner
 
-This will create containers for the API and the Oracle database.
+Execute os seguintes comandos para construir e iniciar o contêiner Docker:
+```bash
+docker-compose build 
+```
+```bash
+docker-compose up
+```
 
-## Accessing the API
+### Passo 3: Acessar a API
 
-The API will be available at [http://localhost:8080](http://localhost:8080).  
-You can also access `swagger` at [http://localhost:8080/swagger](http://localhost:8080/swagger).  
-You can access it in your browser or use a tool like curl or Postman to make requests.
-
-## Accessing the Database
-
-Accessing the Database
-
-The Oracle database can be accessed using any Oracle database management tool. Use the following connection information:
-
-•	Host: localhost
-•	Port: 1521
-•	Service Name: XEPDB1
-•	User: match
-•	Password: match
-
-## Running Database Migrations
-
-To create tables in the database, you can use the following command:
-
-inside the folder
-    ```bash
-    src > Match.Api
-    ```
-run the command
-
-  ```bash
-  dotnet ef database update
-  ```
-If so far everything has gone as it should, you can test the api, enjoy ✨
+A API estará disponível em `http://localhost:8080`. Você pode testar os endpoints usando ferramentas como Postman ou cURL.
 
 
-## Running Tests
 
-To run the unit tests, use the following command:
+## 📜 Tecnologias Utilizadas
 
-This will execute all the tests in the `Match.Tests` project.
+🔹 Back-End
+- Linguagem: C#
+- Framework: .NET 8
 
-## Project Structure
+🔹 Banco de Dados
+- Banco de Dados Relacional: Oracle
+- ORM: Entity Framework Core
 
-The project is organized into the following structure:
 
-- **Match.Domain**: Contains the domain models and interfaces.
-- **Match.Infrastructure**: Contains the Entity Framework Core configurations and implementations.
-- **Match.Api**: Contains the ASP.NET Core web application.
-- **Match.Tests**: Contains the unit tests for the application.
+🔹 Infraestrutura e DevOps
+- Containerização: Docker
+- Gerenciamento de Containers: Docker Compose
 
-### Key Files
+🔹 Testes Automatizados
+- Testes Unitários e de Integração: xUnit
+- Mock de Dependências: Moq
 
-- `Match.Domain/Developer/Developer.cs`: Represents the developer entity.
-- `Match.Domain/Project/Project.cs`: Represents the project entity.
-- `Match.Infrastructure/ConfigurationEF/Developers/DevelopersConfig.cs`: Entity Framework Core configuration for the `Developer` entity.
-- `Match.Tests/ServMatchTests.cs`: Unit tests for the `ServMatch` service.
+
+## 🌐 Endpoints Principais
+
+Os controllers responsáveis pelos classes Developer, Project e Skill possuem endpoints semelhantes, seguindo o padrão CRUD (Create, Read, Update, Delete)
+
+Os controllers abaixo possuem os mesmo endpoint de cadastro
+- DeveloperControllers
+- ProjectControllers
+- SkillControllers
+
+| Método | Endpoint             | Descrição                       |
+|--------|----------------------|---------------------------------|
+| POST   | /Create              | Cria um novo cadastro (Developer, Project, ou Skill).          |
+| GET    | /GetByAll            |  Retorna todos os recursos cadastrados (todos os Developers, Projects ou Skills).     |
+| GET    | /GetById             | Retorna um cadastro específico pelo Id.        |
+| PUT    | /Update              | Atualiza os dados de um cadastro existente.          |
+| DELETE | /Delete              | Exclui um cadastro específico pelo Id.          |
+
