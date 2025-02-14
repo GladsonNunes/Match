@@ -56,7 +56,7 @@ A API estará disponível em `http://localhost:8080`. Você pode testar os endpo
 
 ## 🌐 Endpoints Principais
 
-Os controllers responsáveis pelos classes Developer, Project e Skill possuem endpoints semelhantes, seguindo o padrão CRUD (Create, Read, Update, Delete)
+Os controllers responsáveis pelas classes Developer, Project e Skill possuem endpoints semelhantes, seguindo o padrão CRUD (Create, Read, Update, Delete)
 
 Os controllers abaixo possuem os mesmo endpoint de cadastro
 - DeveloperControllers
