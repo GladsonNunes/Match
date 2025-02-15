@@ -23,6 +23,9 @@ namespace Match.Infrastructure.ConfigurationEF.MatchMaker
                 .ValueGeneratedOnAdd()
                 .HasColumnName("IDMATCHMAKER");
 
+            builder.Property(x => x.StatusProcessedMatchMaker)
+               .HasColumnName("STATUS_PROCESSED_MATCH_MAKER)");
+
             builder.HasOne(ds => ds.Match)
                .WithMany(d => d.MatchMakers)
                .HasForeignKey(ds => ds.MatchId)
