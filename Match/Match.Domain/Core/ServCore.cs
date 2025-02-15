@@ -20,14 +20,16 @@
             return _rep.GetById(id);
         }
 
-        public void Add(T entity)
+        public T Add(T entity)
         {
             _rep.Add(entity);
+            return entity;
         }
 
-        public void Update(T entity)
+        public T Update(T entity)
         {
             _rep.Update(entity);
+            return entity;
         }
 
         public void Delete(int id)

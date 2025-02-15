@@ -1,4 +1,5 @@
 ﻿using Match.Domain.Core;
+using Match.Domain.Developer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Match.Api.Controllers.Core
@@ -48,7 +49,7 @@ namespace Match.Api.Controllers.Core
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] T item)
+        public ActionResult<T> Create([FromBody] T item)
         {
             try
             {
@@ -56,8 +57,8 @@ namespace Match.Api.Controllers.Core
                 {
                     return BadRequest();
                 }
-                _service.Add(item);
-                return CreatedAtAction(nameof(GetById), new { id = item }, item);
+                var createdItem = _service.Add(item);
+                return CreatedAtAction(nameof(GetById), createdItem);
             }
             catch (Exception ex)
             {
@@ -68,7 +69,7 @@ namespace Match.Api.Controllers.Core
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] T item)
+        public ActionResult<T> Update(int id, [FromBody] T item)
         {
             try
             {
@@ -76,8 +77,8 @@ namespace Match.Api.Controllers.Core
                 {
                     return BadRequest();
                 }
-                _service.Update(item);
-                return Ok();
+                var itemUpdated = _service.Update(item);
+                return Ok(itemUpdated);
             }
             catch (Exception ex)
             {
