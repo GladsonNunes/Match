@@ -21,7 +21,6 @@
    public class MatchDTO
    {
         public int Id { get; set; }
-        public EnumStatusProcessed StatusProcessed { get; set; }
         public EnumTypeMatch TypeMatch { get; set; }
         public DateTime DateMatch { get; set; }
         public List<MatchMakerDTO> MatchMakers { get; set; }

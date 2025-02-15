@@ -7,6 +7,8 @@ namespace Match.Domain.Match
     {
         DadosMatchDeveloperToProjectDTO MatchDeveloperToProject(int projectId);
         DadosMatchProjectToDeveloperDTO MatchProjectToDeveloper(int developerId);
-        int CreateMatch(CreateMatchDTO dto);
+        void CreateMatch(CreateMatchDTO dto);
+        void UpdateStatus(int matchId);
+        Match GetMatchById(int matchId);
     }
 }

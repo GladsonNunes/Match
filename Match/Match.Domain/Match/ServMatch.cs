@@ -5,6 +5,7 @@ using static System.Formats.Asn1.AsnWriter;
 using Match.Domain.Project;
 using Match.Domain.Match.DTO;
 using Match.Domain.MatchNotification;
+using Match.Domain.MatchMaker;
 
 namespace Match.Domain.Match
 {
@@ -13,28 +14,34 @@ namespace Match.Domain.Match
         private readonly IServDeveloper _servDeveloper;
         private readonly IServProject _servProject;
         private readonly IRepMatch _repMatch;
+        private readonly IRepMatchMaker _repMatchMaker;
         private readonly IServMatchNotification _servMatchNotification;
 
-        public ServMatch(IServDeveloper servDeveloper,IServProject servProject, IRepMatch repMatch, IServMatchNotification servMatchNotification)
+        public ServMatch(IServDeveloper servDeveloper,
+                         IServProject servProject,
+                         IRepMatch repMatch,
+                         IServMatchNotification servMatchNotification,
+                         IRepMatchMaker repMatchMaker)
         {
             _servDeveloper = servDeveloper;
             _servProject = servProject;
             _repMatch = repMatch;
             _servMatchNotification = servMatchNotification;
+            _repMatchMaker = repMatchMaker;
         }
 
         public DadosMatchDeveloperToProjectDTO MatchDeveloperToProject(int projectId)
         {
             var matchedDevelopers = new DadosMatchDeveloperToProjectDTO();
-            
+
             var developerAptos = new List<DadosDeveloperMatchResultDTO>();
-            
+
             var project = _servProject.GetProjectById(projectId);
 
             var requiredExperienceLevel = project.MinimumExperienceLevel;
 
             var requiredSkills = project.ProjectSkills.Select(s => s.SkillId).ToList();
-            
+
 
             var developersAptos = _servDeveloper.GetDevelopersAptosBySkill(requiredSkills);
             var devSlots = 0;
@@ -99,10 +106,10 @@ namespace Match.Domain.Match
 
                 }
             }
-            
+
             matchedDevelopers.DevelopersAptos = matchedDevelopers.DevelopersAptos.OrderByDescending(d => d.Score).ToList();
             matchedDevelopers.DevelopersAptosSegunda = matchedDevelopers.DevelopersAptosSegunda.OrderByDescending(d => d.Score).ToList();
-            
+
             return matchedDevelopers;
         }
 
@@ -141,12 +148,12 @@ namespace Match.Domain.Match
             return matchProjectToDeveloper;
         }
 
-        public int CreateMatch(CreateMatchDTO dto)
+        public void CreateMatch(CreateMatchDTO dto)
         {
             var match = new Match
             {
                 Id = dto.Match.Id,
-                StatusProcessed = dto.Match.StatusProcessed,
+                StatusProcessed = EnumStatusProcessed.Pending,
                 TypeMatch = dto.Match.TypeMatch,
                 DateMatch = dto.Match.DateMatch,
                 MatchMakers = new List<MatchMaker.MatchMaker>()
@@ -160,6 +167,7 @@ namespace Match.Domain.Match
                     Id = matchMakerDto.Id,
                     ProjectId = matchMakerDto.ProjectId,
                     DeveloperId = matchMakerDto.DeveloperId,
+                    StatusProcessedMatchMaker = EnumStatusProcessedMatchMakers.WaitingForMatch,
                     MatchId = dto.Match.Id,
                 };
 
@@ -168,19 +176,37 @@ namespace Match.Domain.Match
 
             _repMatch.Add(match);
 
-            if (dto.Match.TypeMatch == EnumTypeMatch.ProjectToDeveloper) 
+            if (dto.Match.TypeMatch == EnumTypeMatch.DeveloperToProject)
             {
                 var developer = dto.DevelopersId.Distinct().FirstOrDefault();
-                _servMatchNotification.NotificationProject(dto.Project.ProjectId, developer.DeveloperId);
+                _servMatchNotification.NotificationProject(dto.Project.ProjectId, developer.DeveloperId, EnumStatusProcessed.Pending);
             }
             else
             {
-                _servMatchNotification.NotificationDeveloper(dto.DevelopersId, dto.Project.ProjectId);
+                _servMatchNotification.NotificationDeveloper(dto.DevelopersId, dto.Project.ProjectId, EnumStatusProcessed.Pending);
             }
-            
-            return 1;
+
         }
 
+        public void UpdateStatus(int matchId)
+        {
+            var match = _repMatch.GetById(matchId);
+            var listMatchMaker = _repMatchMaker.GetAllById(matchId);
+
+            var hasPendingStatus = listMatchMaker.Any(mm => mm.StatusProcessedMatchMaker == EnumStatusProcessedMatchMakers.WaitingForMatch);
+
+            if (!hasPendingStatus)
+            {
+                match.StatusProcessed = EnumStatusProcessed.Processed;
+                _repMatch.Update(match);
+            }
+        }
+
+        public Match GetMatchById (int matchId)
+        {
+            var match = _repMatch.GetById (matchId);
+            return match;   
+        }
     }
 }
 

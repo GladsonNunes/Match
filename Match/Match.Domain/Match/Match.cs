@@ -14,6 +14,15 @@ namespace Match.Domain.Match
 
     public enum EnumStatusProcessed
     {
+        [Description("Pending")]
+        Pending = 0,
+
+        [Description("Processed")]
+        Processed = 1,
+    }
+
+    public enum EnumStatusProcessedMatchMakers
+    {
         [Description("WaitingForMatch")]
         WaitingForMatch = 0,
 

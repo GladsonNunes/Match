@@ -1,9 +1,10 @@
-﻿using Match.Domain.Developer;
+﻿
+using Match.Application.Match;
 using Match.Domain.Match;
 using Match.Domain.Match.DTO;
 using Match.Domain.Matches.DTO;
 
-namespace Match.Application.Match
+namespace Match.Application
 {
     public class AplicMatch : IAplicMatch
     {
@@ -22,9 +23,14 @@ namespace Match.Application.Match
             return _servMatch.MatchProjectToDeveloper(DeveloperId);
         }
 
-        public int CreateMatch(CreateMatchDTO dto) 
+        public void CreateMatch(CreateMatchDTO dto) 
         {
-            return _servMatch.CreateMatch(dto);
+            _servMatch.CreateMatch(dto);
+        }
+
+        public Domain.Match.Match GetMatchById(int matchId)
+        {
+            return _servMatch.GetMatchById(matchId);
         }
     }
 }

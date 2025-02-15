@@ -1,7 +1,9 @@
 ﻿using Match.Api.Controllers.Core;
 using Match.Application.Match;
 using Match.Domain.Core;
+using Match.Domain.Match;
 using Match.Domain.Match.DTO;
+using Match.Domain.Matches.DTO;
 using Match.Domain.Project;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,11 +11,11 @@ namespace Match.Api.Controllers.Match
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class MatchController : CoreController<Domain.Match.Match>
+    public class MatchController : ControllerBase
     {
         private readonly IAplicMatch _aplicMatch;
 
-        public MatchController(IServCore<Domain.Match.Match> service, IAplicMatch aplicMatch) : base(service)
+        public MatchController(IServCore<Domain.Match.Match> service, IAplicMatch aplicMatch)
         {
             _aplicMatch = aplicMatch;
         }
@@ -21,6 +23,11 @@ namespace Match.Api.Controllers.Match
         [HttpPost("CreateMatch")]
         public IActionResult CreateMatch(CreateMatchDTO dto)
         {
+            if (dto == null)
+            {
+                return BadRequest("DTO não pode ser nulo.");
+            }
+
             try
             {
                 _aplicMatch.CreateMatch(dto);
@@ -31,6 +38,25 @@ namespace Match.Api.Controllers.Match
                 return StatusCode(500, new { message = "Erro ao criar Match.", details = ex.Message });
             }
             
+        }
+
+        [HttpGet("GetMatch/{Id}")]
+        public IActionResult GetMatch(int MatchId)
+        {
+            if (MatchId == 0)
+            {
+                return BadRequest("Match code cannot be 0.");
+            }
+
+            try
+            {
+                var match = _aplicMatch.GetMatchById(MatchId);
+                return Ok(match);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Erro ao realizar o match.", details = ex.Message });
+            }
         }
 
         [HttpGet("MatchDevelopersToProject/{id}")]
@@ -50,10 +76,10 @@ namespace Match.Api.Controllers.Match
                     return NoContent();
                 }
 
-                return Ok(new
+                return Ok(new DadosMatchDeveloperToProjectDTO
                 {
-                    MatchedDevelopersAptos = matchedDevelopers.DevelopersAptos,
-                    MatchedDevelopersAptosSecond = matchedDevelopers.DevelopersAptosSegunda,
+                    DevelopersAptos = matchedDevelopers.DevelopersAptos,
+                    DevelopersAptosSegunda = matchedDevelopers.DevelopersAptosSegunda,
                 });
             }
             catch (Exception ex)
@@ -79,9 +105,9 @@ namespace Match.Api.Controllers.Match
                     return NoContent();
                 }
 
-                return Ok(new
+                return Ok(new DadosMatchProjectToDeveloperDTO
                 {
-                    MatchedProjectAptos = matchedProjects.ProjectsAptos
+                    ProjectsAptos = matchedProjects.ProjectsAptos
                 });
             }
             catch (Exception ex)
@@ -89,7 +115,6 @@ namespace Match.Api.Controllers.Match
                 return StatusCode(500, new { message = "Erro ao realizar o match.", details = ex.Message });
             }
         }
-
 
     }
 }
