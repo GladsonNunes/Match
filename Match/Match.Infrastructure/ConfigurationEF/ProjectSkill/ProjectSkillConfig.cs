@@ -4,7 +4,7 @@ using DomainProjectSkill = Match.Domain.ProjectSkill.ProjectSkill;
 
 namespace Match.Infrastructure.ConfigurationEF.ProjectSkill
 {
-    internal class ProjectSkillConfig : IEntityTypeConfiguration<DomainProjectSkill>
+    public class ProjectSkillConfig : IEntityTypeConfiguration<DomainProjectSkill>
     {
         public void Configure(EntityTypeBuilder<DomainProjectSkill> builder)
         {

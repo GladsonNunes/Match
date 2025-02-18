@@ -28,8 +28,4 @@
     <ProjectReference Include="..\Match.Domain\Match.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Skill\" />
-  </ItemGroup>
-
 </Project>
