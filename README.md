@@ -1,5 +1,5 @@
 
-# Project Match - back-end 
+# Projeto Match - back-end 
 
 O projeto é uma API desenvolvida em .NET 8 que gerencia o processo de "match" entre desenvolvedores e projetos. Ele possui funcionalidades para criar matches, associar desenvolvedores a projetos e vice-versa, além de atualizar o status de um match.
 
@@ -56,7 +56,7 @@ A API estará disponível em `http://localhost:8080`. Você pode testar os endpo
 
 ## 🌐 Endpoints Principais
 
-Os controllers responsáveis pelas classes Developer, Project e Skill possuem endpoints semelhantes, seguindo o padrão CRUD (Create, Read, Update, Delete)
+Os controllers responsáveis pelos classes Developer, Project e Skill possuem endpoints semelhantes, seguindo o padrão CRUD (Create, Read, Update, Delete)
 
 Os controllers abaixo possuem os mesmo endpoint de cadastro
 - DeveloperControllers
@@ -71,3 +71,23 @@ Os controllers abaixo possuem os mesmo endpoint de cadastro
 | PUT    | /Update              | Atualiza os dados de um cadastro existente.          |
 | DELETE | /Delete              | Exclui um cadastro específico pelo Id.          |
 
+🔹 MatchController
+
+- O `MatchController` é responsável por gerenciar as operações relacionadas a "matches" entre desenvolvedores e projetos. Ele fornece endpoints para criar matches, obter informações sobre matches e realizar o match entre desenvolvedores e projetos.
+
+
+| Método | Endpoint             | Descrição                       |
+|--------|----------------------|---------------------------------|
+| POST   | /CreateMatch         | Cria um novo match.          |
+| GET    | /GetMatch            |  Obtém informações sobre um match específico.               |
+| GET    | /MatchDevelopersToProject             | Realiza o match de desenvolvedores para um projeto específico.       |
+| GET    | /MatchProjectToDevelopers              | Realiza o match de projetos para um desenvolvedor específico.          |
+
+🔹 MatchMakerController
+
+- O `MatchMakerController` é responsável por gerenciar as operações relacionadas ao processamento de "matchmakers". Ele fornece endpoints para atualizar o status de processamento de um matchmaker.
+
+
+| Método | Endpoint             | Descrição                       |
+|--------|----------------------|---------------------------------|
+| PUT   | /UpdateStatusProcessed         | Atualiza o status de processamento de um matchmaker específico.
